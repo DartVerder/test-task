@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Offers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+    <script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+
+<div class="container">
+    <table class="table table-hover" id="payments" data-pagination="true">
+        <thead>
+        <tr>
+            <th scope="col" style="text-align: center">№</th>
+            <th scope="col" style="text-align: center">Date</th>
+            <th scope="col" style="text-align: center">Payment</th>
+            <th scope="col" style="text-align: center">Payment to Credit</th>
+            <th scope="col" style="text-align: center">Payment to Percent</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="payment, state : ${entities.page}">
+            <tr  th:id="${payment.id}" data-toggle="collapse" th:data-target="'.background_' +${payment.id}">
+                <th scope="row" th:text="${state.count}" style="text-align: center"></th>
+                <td th:text="${payment.paymentDate}" style="text-align: center">date</td>
+                <td th:text="${payment.paymentSum}" style="text-align: center">payment</td>
+                <td th:text="${payment.paymentToCredit}" style="text-align: center">to credit</td>
+                <td th:text="${payment.paymentToPercents}" style="text-align: center">to percents</td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <div th:replace="fragments/pagination"></div>
+</div>
+</body>
+</html>

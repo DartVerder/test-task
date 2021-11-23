@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!EDIT IT. BUTTONS ARE NOT DISPLAYED>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Banks</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+    <script  th:src="@{/resources/js/jquery.min.js}"></script>
+    <script th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/modal.js}"></script>
+    <script th:src="@{/resources/js/data/bankData.js}" ></script>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div th:replace="fragments/modal"></div>
+<div th:replace="fragments/modalDelete"></div>
+
+<div class="container">
+    <a id="createBtn" type="button" class="btn btn-default" th:action="@{/banks/add}">
+        Create
+    </a>
+
+    <table class="table table-hover" id="banks" data-pagination="true">
+        <thead>
+        <tr>
+            <th scope="col" style="text-align: center">№</th>
+            <th scope="col" style="text-align: center">Bank name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="entity, state : ${entities.page}">
+            <tr  th:id="${entity.id}" data-toggle="collapse" th:data-target="'.background_' +${entity.id}">
+                <th scope="row" th:text="${state.count}" style="text-align: center"></th>
+                <td th:text="${entity.name}" style="text-align: center">name</td>
+                <td>
+                    <div class="btn-group">
+                        <a id="editBtn" class="btn btn-default"
+                           th:href="@{/banks/get/(id=${entity.id})}" th:action="@{/banks/add}" >Edit</a>
+                        <a id="deleteBtn" class="btn btn-danger" th:href="@{/banks/delete/{id}(id=${entity.id})}">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <div th:replace="fragments/pagination"></div>
+</div>
+</body>
+</html>
+
+<script>
+    $('.table #editBtn').on('click', function (event){
+        event.preventDefault();
+        var $modal = $('#createModal');
+        var href =$(this).attr('href');
+        var action = $(this).attr('action');
+        $('#createModal #createForm').attr('action',action);
+        $.get(href,function (entity,status){
+            $('#bankId').val(entity.id);
+            $('#bankName').val(entity.name);
+        });
+        $modal.modal();
+    })
+    $('#createBtn').on('click', function (event){
+        event.preventDefault();
+        $('#bankId').val('');
+        $('#bankName').val('');
+    })
+</script>

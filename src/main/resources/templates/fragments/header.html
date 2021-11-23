@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-right" role="navigation" th:fragment="header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Menu</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MyBank</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav">
+                <li th:classappend="${module == null ? 'active' : ''}">
+                    <a href="#" th:href="@{/}">Home</a>
+                </li>
+
+                <li th:classappend="${module == 'banks' ? 'active' : ''}">
+                    <a href="#" th:href="@{/banks}">Banks</a>
+                </li>
+
+                <li th:classappend="${module == 'credits' ? 'active' : ''}">
+                    <a href="#" th:href="@{/credits}">Credit Programs</a>
+                </li>
+
+                <li th:classappend="${module == 'clients'? 'active' : ''}">
+                    <a href="#" th:href="@{/clients}">Clients</a>
+                </li>
+                <li th:classappend="${module == 'offers'? 'active' : ''}">
+                    <a href="#" th:href="@{/offers}">Offers</a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

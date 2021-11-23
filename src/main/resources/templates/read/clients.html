@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!EDIT IT. BUTTONS ARE NOT DISPLAYED>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Clients</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+    <script th:src="@{/resources/js/jquery.min.js}"></script>
+    <script th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/modal.js}"></script>
+    <script th:src="@{/resources/js/data/clientData.js}" ></script>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div th:replace="fragments/modal"></div>
+<div th:replace="fragments/modalDelete"></div>
+
+<div class="container">
+    <a id="createBtn" type="button" class="btn btn-default" th:action="@{/clients/add}">
+       Create
+    </a>
+
+    <table class="table table-hover" id="clients" data-pagination="true">
+        <thead>
+        <tr>
+            <th scope="col" style="text-align: center">№</th>
+            <th scope="col" style="text-align: center">Last Name</th>
+            <th scope="col" style="text-align: center">First Name</th>
+            <th scope="col" style="text-align: center">Patronymic</th>
+            <th scope="col" style="text-align: center">Phone Number</th>
+            <th scope="col" style="text-align: center">Passport Number</th>
+            <th scope="col" style="text-align: center">Bank</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="entity, state : ${entities.page}">
+            <tr th:id="${entity.id}" data-toggle="collapse" th:data-target="'.background_' +${entity.id}">
+                <th scope="row" th:text="${state.count}" style="text-align: center"></th>
+                <td th:text="${entity.lastName}" style="text-align: center">lastName</td>
+                <td th:text="${entity.firstName}" style="text-align: center">firstName</td>
+                <td th:text="${entity.patronymic}" style="text-align: center">patronymic</td>
+                <td th:text="${entity.patronymic}" style="text-align: center">phoneNumber</td>
+                <td th:text="${entity.passportNumber}" style="text-align: center">passportNumber</td>
+                <td th:text="${entity.bank.name}" style="text-align: center">bank</td>
+
+                <td>
+                    <div class="btn-group">
+                        <a id="editBtn" class="btn btn-default"
+                           th:href="@{/clients/get/(id=${entity.id})}" th:action="@{/clients/add}" >Edit</a>
+                        <a id="deleteBtn" class="btn btn-danger" th:href="@{/clients/delete/{id}(id=${entity.id})}">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <div th:replace="fragments/pagination"></div>
+</div>
+</body>
+</html>
+
+<script>
+    $('.table #editBtn').on('click', function (event){
+        event.preventDefault();
+        document.getElementById('backendValidation').innerHTML= '';
+        var $modal = $('#createModal');
+        var href =$(this).attr('href');
+        var action = $(this).attr('action');
+        $('#createModal #createForm').attr('action',action);
+        $.get(href,function (entity,status){
+            $('#clientId').val(entity.id);
+            $('#clientLastName').val(entity.lastName);
+            $('#clientFirstName').val(entity.firstName);
+            $('#clientPatronymic').val(entity.patronymic);
+            $('#clientPhoneNumber').val(entity.phoneNumber);
+            $('#clientPassportNumber').val(entity.passportNumber);
+            $('#clientBank').val(entity.bank.id).selectpicker('refresh');
+        });
+        $modal.modal();
+    })
+    $('#createBtn').on('click', function (event){
+        event.preventDefault();
+        document.getElementById('backendValidation').innerHTML= '';
+        var $modal = $('#createModal');
+        $('#clientId').val('');
+        $('#clientLastName').val('');
+        $('#clientFirstName').val('');
+        $('#clientPatronymic').val('');
+        $('#clientPhoneNumber').val('');
+        $('#clientPassportNumber').val('');
+        $('#clientBank').val('').selectpicker('refresh');
+    })
+</script>

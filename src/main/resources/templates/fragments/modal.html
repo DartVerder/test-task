@@ -1,0 +1,40 @@
+<!-- Modal -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link href="../../../../resources/css/bootstrap-multiselect.css" rel="stylesheet" media="screen"
+      th:href="@{/resources/css/bootstrap-multiselect.css}"/>
+<script src="../../../../resources/js/bootstrap-multiselect.js"
+        th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
+<link rel="stylesheet" href="../../../resources/css/bootstrap-select.css"/>
+<script src="../../../resources/js/bootstrap-select.min.js"></script>
+
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div th:switch="${module}">
+                    <h5 th:case="'banks'" class="modal-title">Add Bank</h5>
+                    <h5 th:case="'clients'" class="modal-title">Add client</h5>
+                    <h5 th:case="'credits'" class="modal-title">Add Credit Program</h5>
+                    <h5 th:case="'offers'" class="modal-title">Add Credit Offer</h5>
+                </div>
+
+            </div>
+
+            <div class="modal-body">
+                <form id="createForm" th:object="${entity}" action="" method="post" novalidate
+                      xmlns:th="http://www.w3.org/1999/xhtml">
+                    <div th:replace="'fragments/modalFragments/'+${moduleAddPageName}"></div>
+                    <div style="color: red" id="backendValidation" class="text"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" value="Save" class="btn btn-primary">Save</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+

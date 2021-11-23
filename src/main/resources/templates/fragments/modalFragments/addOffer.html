@@ -1,0 +1,81 @@
+<script src="../../../resources/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="../../../resources/css/bootstrap-datepicker.standalone.min.css"/>
+
+<div hidden class="form-group hidden">
+    <label for="offerId" class="col-form-label">Offer Id</label>
+    <input type="text" th:field="*{id}" class="form-control" id="offerId">
+</div>
+
+<div class="form-group">
+    <label for="offerClient">Client</label>
+    <select required class="selectpicker needs-validation" th:field="*{client}"
+            data-live-search="true" id="offerClient" name="offerClient" data-width="100%">
+        <option selected value=""></option>
+        <option th:each="client : ${clients}"
+                th:value="${client.id}"
+                th:utext="${client.lastName}+' '+${client.firstName}+' '+${client.patronymic} + ' Bank: '+${client.bank.name}"/>
+    </select>
+    <div style="color: red" class="invalid-feedback"></div>
+</div>
+
+<div class="form-group">
+    <label for="offerCreditSum" class="col-form-label">Credit Sum</label>
+    <input required min="0.01" step="0.01" type="number" th:field="*{creditSum}"
+           class="form-control needs-validation" id="offerCreditSum">
+    <small>enter a positive number</small>
+    <div style="color: red" class="invalid-feedback"></div>
+</div>
+
+<div class="form-group">
+    <label for="offerMonthsCount" class="col-form-label">Period (Months)</label>
+    <input required min="1" step="1" type="number" th:field="*{monthsCount}" class="form-control needs-validation"
+           id="offerMonthsCount">
+    <small>enter a positive number</small>
+    <!--<span th:if="${#fields.hasErrors('percent')}" th:errors="*{percent}" class="text-danger">percent error</span>-->
+    <div style="color: red" class="invalid-feedback"></div>
+</div>
+
+<div class="form-group">
+    <label for="offerCredit">Credit</label>
+    <select required class="selectpicker needs-validation" th:field="*{credit}" data-live-search="true"
+            id="offerCredit" name="offerCreditName" data-width="100%">
+        <option selected value=""></option>
+        <option th:each="credit : ${credits}"
+                th:value="${credit.id}"
+                th:utext="' percent = '+ ${credit.percent} + ' limit = '+ ${credit.creditLimit}
+                + 'bank: '+ ${credit.bank.name}"/>
+    </select>
+    <div style="color: red" class="invalid-feedback"></div>
+</div>
+
+<div class="form-group">
+    <label for="offerScheduleType">Payment schedule type</label>
+    <select required class="selectpicker needs-validation" th:field="*{paymentScheduleType}" id="offerScheduleType"
+            data-width="100%">
+        <option th:each="scheduleType : ${T(com.haulmont.testtask.model.PaymentScheduleType).values()}"
+                th:value="${scheduleType}" th:text="${scheduleType.displayValue}">
+        </option>
+    </select>
+    <div style="color: red" class="invalid-feedback"></div>
+</div>
+
+<div class="form-group">
+    <label for="startDate">Start date</label>
+    <div id="startDate" class="date input-group " data-provide="datepicker">
+        <input required type="text" class="form-control needs-validation" id="offerStartDate" name="date"
+               th:field="*{startDate}" autocomplete="off">
+        <div class="input-group-addon">
+            <span class="glyphicon glyphicon-th"></span>
+        </div>
+    </div>
+    <small></small>
+    <div style="color: red" class="invalid-feedback"></div>
+</div>
+
+<script type="text/javascript">
+    $('.date').datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        todayHighlight: true,
+    });
+</script>

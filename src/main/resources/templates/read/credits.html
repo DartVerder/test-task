@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!EDIT IT. BUTTONS ARE NOT DISPLAYED>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <title>Credit Programs</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+    <script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <script th:src="@{/resources/js/modal.js}"></script>
+    <script th:src="@{/resources/js/data/creditData.js}" ></script>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div th:replace="fragments/modal"></div>
+<div th:replace="fragments/modalDelete"></div>
+
+<div class="container">
+    <a id="createBtn" type="button" class="btn btn-default" th:action="@{/credits/add}">
+        Create
+    </a>
+    <table class="table table-hover" id="clients" data-pagination="true">
+        <thead>
+        <tr>
+            <th scope="col" style="text-align: center">№</th>
+            <th scope="col" style="text-align: center">Credit limit</th>
+            <th scope="col" style="text-align: center">Percent</th>
+            <th scope="col" style="text-align: center">Bank</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="entity, state : ${entities.page}">
+            <tr th:id="${entity.id}" data-toggle="collapse" th:data-target="'.background_' +${entity.id}">
+                <th scope="row" th:text="${state.count}" style="text-align: center"></th>
+                <td th:text="${entity.creditLimit}" style="text-align: center">creditLimit</td>
+                <td th:text="${entity.percent}" style="text-align: center">percent</td>
+                <td th:text="${entity.bank.name}" style="text-align: center">bank</td>
+                <td>
+                    <div class="btn-group">
+                        <a id="editBtn" class="btn btn-default"
+                           th:href="@{/credits/get/(id=${entity.id})}" th:action="@{/credits/add}" >Edit</a>
+                        <a id="deleteBtn" class="btn btn-danger" th:href="@{/credits/delete/{id}(id=${entity.id})}">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <div th:replace="fragments/pagination"></div>
+</div>
+
+</body>
+</html>
+<script>
+    $('.table #editBtn').on('click', function (event){
+        event.preventDefault();
+        document.getElementById('backendValidation').innerHTML= '';
+        var $modal = $('#createModal');
+        var href =$(this).attr('href');
+        var action = $(this).attr('action');
+        $('#createModal #createForm').attr('action',action);
+        $.get(href,function (entity,status){
+            $('#creditId').val(entity.id);
+            $('#creditLimit').val(entity.creditLimit);
+            $('#creditPercent').val(entity.percent);
+            $('#creditBank').val(entity.bank.id).selectpicker('refresh');
+        });
+        $modal.modal();
+    })
+    $('#createBtn').on('click', function (event){
+        event.preventDefault();
+        document.getElementById('backendValidation').innerHTML= '';
+        $('#creditId').val('');
+        $('#creditLimit').val('');
+        $('#creditPercent').val('');
+        $('#creditBank').val('').selectpicker('refresh');
+    })
+</script>
+
