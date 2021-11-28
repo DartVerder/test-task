@@ -23,6 +23,7 @@ public class CreditOfferController extends BaseController<CreditOffer> {
     public final CreditService creditService;
     public final ClientService clientService;
     public final PaymentService paymentService;
+    public final CreditOfferService creditOfferService;
 
     public CreditOfferController(CreditOfferService creditOfferService, CreditService creditService,
                                  ClientService clientService, PaymentService paymentService) {
@@ -30,6 +31,7 @@ public class CreditOfferController extends BaseController<CreditOffer> {
         this.creditService = creditService;
         this.clientService = clientService;
         this.paymentService = paymentService;
+        this.creditOfferService = creditOfferService;
 
     }
 
@@ -37,7 +39,6 @@ public class CreditOfferController extends BaseController<CreditOffer> {
     protected String getNamePath() {
         return "offer";
     }
-    //**TO DO**
 
     @Override
     @GetMapping("/offers")
@@ -70,7 +71,6 @@ public class CreditOfferController extends BaseController<CreditOffer> {
         if (dataResult.isSuccess) {
 
             if (id != null) {
-                CreditOffer creditOffer = (CreditOffer) baseService.findById(id).get();
                 //if attributes that affected on payment list was changed
                 paymentService.deleteByCreditOffer_Id(id);
                 paymentService.saveAll(entity.getPayments());
@@ -90,9 +90,7 @@ public class CreditOfferController extends BaseController<CreditOffer> {
     @RequestMapping("offers/get")
     @ResponseBody
     protected Optional<CreditOffer> getEntity(String id) {
-
-        Optional<CreditOffer> res = baseService.findById(UUID.fromString(id));
-        return res;
+        return creditOfferService.findById(UUID.fromString(id));
     }
 
 }

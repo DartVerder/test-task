@@ -11,13 +11,13 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 
-public abstract class BaseController<TEntity> {
+public abstract class BaseController<E> {
 
-    protected final BaseService baseService;
+    protected final BaseService<E> baseService;
 
     protected abstract String getNamePath();
 
-    public BaseController(BaseService baseService) {
+    public BaseController(BaseService<E> baseService) {
 
         this.baseService = baseService;
 
@@ -32,7 +32,7 @@ public abstract class BaseController<TEntity> {
     }
 
     //create or update entity
-    protected DataResult addEntity(@Valid TEntity entity, BindingResult result) {
+    protected DataResult addEntity(@Valid E entity, BindingResult result) {
         DataResult dataResult = new DataResult();
         dataResult.setSuccess(true);
 

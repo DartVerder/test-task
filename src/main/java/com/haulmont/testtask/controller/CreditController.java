@@ -18,11 +18,13 @@ import java.util.UUID;
 public class CreditController extends BaseController<Credit> {
 
     private final BankService bankService;
+    private final CreditService creditService;
 
     @Autowired
     public CreditController(CreditService creditService, BankService bankService) {
         super(creditService);
         this.bankService = bankService;
+        this.creditService = creditService;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class CreditController extends BaseController<Credit> {
     @RequestMapping("/credits/get")
     @ResponseBody
     protected Optional<Credit> getEntity(String id) {
-        return baseService.findById(UUID.fromString(id));
+        return creditService.findById(UUID.fromString(id));
     }
 
     @Override

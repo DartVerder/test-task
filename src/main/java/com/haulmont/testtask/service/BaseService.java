@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface BaseService<TEntity> {
-    Paged<TEntity> getPage(int pageNumber, int size);
+public interface BaseService<E> {
+    Paged<E> getPage(int pageNumber, int size);
 
-    void save(TEntity tEntity);
+    void save(E entity);
 
-    void saveAll(List<TEntity> tEntities);
+    void saveAll(List<E> entities);
 
-    public void deleteById(UUID id);
+    void deleteById(UUID id);
 
-    public List<TEntity> findAll();
+    List<E> findAll();
 
-    public Optional<TEntity> findById(UUID id);
+    Optional<E> findById(UUID id);
 }

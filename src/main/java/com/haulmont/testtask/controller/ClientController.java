@@ -18,11 +18,13 @@ import java.util.UUID;
 public class ClientController extends BaseController<Client> {
 
     private final BankService bankService;
+    private final ClientService clientService;
 
     @Autowired
     public ClientController(ClientService clientService, BankService bankService) {
         super(clientService);
         this.bankService = bankService;
+        this.clientService = clientService;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class ClientController extends BaseController<Client> {
     @RequestMapping("/clients/get")
     @ResponseBody
     protected Optional<Client> getEntity(String id) {
-        return baseService.findById(UUID.fromString(id));
+        return clientService.findById(UUID.fromString(id));
     }
 
     @Override

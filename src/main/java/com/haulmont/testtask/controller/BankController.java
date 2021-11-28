@@ -2,7 +2,6 @@ package com.haulmont.testtask.controller;
 
 import com.haulmont.testtask.dto.DataResult;
 import com.haulmont.testtask.model.Bank;
-import com.haulmont.testtask.repository.BankRepository;
 import com.haulmont.testtask.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,7 @@ public class BankController extends BaseController<Bank> {
     public final BankService bankService;
 
     @Autowired
-    public BankController(BankRepository repository, BankService bankService) {
+    public BankController(BankService bankService) {
         super(bankService);
         this.bankService = bankService;
     }
@@ -56,7 +55,7 @@ public class BankController extends BaseController<Bank> {
     @RequestMapping("banks/get")
     @ResponseBody
     protected Optional<Bank> getEntity(String id) {
-        return baseService.findById(UUID.fromString(id));
+        return bankService.findById(UUID.fromString(id));
     }
 
 }

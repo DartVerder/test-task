@@ -2,14 +2,9 @@ package com.haulmont.testtask.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
-
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Negative;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
@@ -123,10 +118,10 @@ public class CreditOffer {
     @Transient
     public Double getPercentsSum() {
         Double sum = 0.0;
-        for (int i = 0; i < payments.size(); i++) {
-            sum += this.payments.get(i).getPaymentToPercents();
+        for (Payment payment : payments) {
+            sum += payment.getPaymentToPercents();
         }
-        return sum;
+        return roundDouble(sum);
     }
 
     public Double getCreditSum() {

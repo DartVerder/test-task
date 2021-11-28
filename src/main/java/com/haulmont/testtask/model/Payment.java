@@ -1,10 +1,7 @@
 package com.haulmont.testtask.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-
 import java.time.LocalDate;
 import java.util.UUID;
 

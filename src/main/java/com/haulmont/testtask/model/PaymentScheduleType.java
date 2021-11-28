@@ -6,7 +6,7 @@ public enum PaymentScheduleType {
 
     private final String displayValue;
 
-    private PaymentScheduleType(String displayValue) {
+    PaymentScheduleType(String displayValue) {
         this.displayValue = displayValue;
     }
 
