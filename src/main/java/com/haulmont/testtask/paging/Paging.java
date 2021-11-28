@@ -6,6 +6,11 @@ import java.util.List;
 public class Paging {
 
     private static final int PAGINATION_STEP = 3;
+    private static final int PAGINATION_AREA = PAGINATION_STEP * 2;
+    private static final int MAX_DISPLAYED_PAGES = PAGINATION_STEP * 2 + 6;
+    private static final int SKIP_LAST_PAGES_NUM = PAGINATION_STEP * 2 + 1; //if page number less than that - the numbers of the last pages will be skipped
+    private static final int MAX_DISPLAYED_LAST_SKIPPED = PAGINATION_STEP * 2 + 4; //if last skipped max displayed equals this. For displaying MAX_DISPLAYED_PAGES - 1 pages
+
 
     private boolean nextEnabled;
     private boolean prevEnabled;
@@ -19,10 +24,10 @@ public class Paging {
     }
 
     public Paging(boolean nextEnabled, boolean prevEnabled, int pageSize, int pageNumber) {
-        this.nextEnabled=nextEnabled;
-        this.prevEnabled=prevEnabled;
-        this.pageSize=pageSize;
-        this.pageNumber=pageNumber;
+        this.nextEnabled = nextEnabled;
+        this.prevEnabled = prevEnabled;
+        this.pageSize = pageSize;
+        this.pageNumber = pageNumber;
     }
 
     public void setNextEnabled(boolean nextEnabled) {
@@ -93,16 +98,17 @@ public class Paging {
         paging.setPrevEnabled(pageNumber != 1);
         paging.setPageNumber(pageNumber);
 
-        if (totalPages < PAGINATION_STEP * 2 + 6) {
+        if (totalPages < MAX_DISPLAYED_PAGES) {
             paging.addPageItems(1, totalPages + 1, pageNumber);
 
-        } else if (pageNumber < PAGINATION_STEP * 2 + 1) {
-            paging.addPageItems(1, PAGINATION_STEP * 2 + 4, pageNumber);
+        } else if (pageNumber < SKIP_LAST_PAGES_NUM) {
+            paging.addPageItems(1, MAX_DISPLAYED_LAST_SKIPPED, pageNumber);
             paging.last(totalPages);
 
-        } else if (pageNumber > totalPages - PAGINATION_STEP * 2) {
+        } else if (pageNumber > totalPages - PAGINATION_AREA) { //if page number more than that - the numbers of the first pages will be skipped
             paging.first(pageNumber);
-            paging.addPageItems(totalPages - PAGINATION_STEP * 2 - 2, totalPages + 1, pageNumber);
+            int startValue = totalPages - PAGINATION_AREA - 2; //start value, allows displaying MAX_DISPLAYED_PAGES - 1 pages
+            paging.addPageItems(startValue, totalPages + 1, pageNumber); //
 
         } else {
             paging.first(pageNumber);
